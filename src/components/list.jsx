@@ -78,9 +78,9 @@ export default function List({
                 : filterValue === "done"
                 ? `${filterItemsDone.length} done`
                 : `${filterItemsLeft.length} left, ${filterItemsDone.length} done`
-              : searchValue.length > 1
-              ? `${searchedItems.length} found`
-              : `${searchedItems.length} founds`}
+              : searchedItems.length > 1
+              ? `${searchedItems.length} founds`
+              : `${searchedItems.length} found`}
           </p>
         </div>
         <Button
