@@ -1,18 +1,8 @@
 import Item from "./item";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { useEffect, useMemo, useState } from "react";
-
+import MyAlertDialog from "./my-alert-dialog";
 
 export default function List({
   filterValue,
@@ -20,8 +10,6 @@ export default function List({
   listData,
   setListData,
 }) {
-
-
   const filterItemsDone = useMemo(
     () => listData.filter((item) => item.status),
     [listData]
@@ -38,16 +26,21 @@ export default function List({
       ? filterItemsLeft
       : filterItemsLeft.concat(filterItemsDone);
   const searchedItems = useMemo(
-    () => filteredItems.filter((item) => (item.title).toLowerCase().includes(searchValue)),
+    () =>
+      filteredItems.filter((item) =>
+        item.title.toLowerCase().includes(searchValue)
+      ),
     [filteredItems]
   );
 
   const [listDataHistory, setListDataHistory] = useState([]);
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(()=>{setTimeout(() => {
-    setListDataHistory([])
-  }, 20000);},[listDataHistory])
+  useEffect(() => {
+    setTimeout(() => {
+      setListDataHistory([]);
+    }, 20000);
+  }, [listDataHistory]);
 
   const handleClear = () => {
     if (!listData.length) {
@@ -68,61 +61,46 @@ export default function List({
     }
   };
 
-
   return (
     <>
-      <div>
+      <MyAlertDialog isOpen={isOpen} setIsOpen={setIsOpen} handleClear={handleClear}/>
         <div className="flex justify-between">
           <div className="flex flex-col items-start">
             <p className="text-xl font-bold">List</p>
-            <p className="font-light text-sm">{!searchValue.length ? (
-                filterValue==='ongoing'?`${filterItemsLeft.length} left`:
-                filterValue==='done'?`${filterItemsDone.length} done`:
-                `${filterItemsLeft.length} left, ${filterItemsDone.length} done`     
-            ) : searchValue.length > 1 ? (
-              `${searchedItems.length} found`
-            ) : (
-              `${searchedItems.length} founds`
-            )}</p>
+            <p className="font-light text-sm">
+              {!searchValue.length
+                ? filterValue === "ongoing"
+                  ? `${filterItemsLeft.length} left`
+                  : filterValue === "done"
+                  ? `${filterItemsDone.length} done`
+                  : `${filterItemsLeft.length} left, ${filterItemsDone.length} done`
+                : searchValue.length > 1
+                ? `${searchedItems.length} found`
+                : `${searchedItems.length} founds`}
+            </p>
           </div>
           <Button
             variant="destructive"
             onClick={() => {
               setListDataHistory([...listData]);
               toast.dismiss();
-              setIsOpen(!isOpen)
+              setIsOpen(!isOpen);
             }}
-          >Clear</Button>
+          >
+            Clear
+          </Button>
         </div>
         <ul className="animate-slide-in-bottom">
           {listData.length ? (
-            (searchValue.length ? searchedItems : filteredItems).map((item,index) => (
-              <Item key={item.id} index={index} item={item}/>
-            ))
+            (searchValue.length ? searchedItems : filteredItems).map(
+              (item) => <Item key={item.id} item={item} />
+            )
           ) : (
             <div className="flex justify-center items-center h-[50vh]">
               <li key="e">No item</li>
             </div>
           )}
         </ul>
-        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-          <AlertDialogContent className="max-sm:max-w-[90vw] rounded-lg">
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action might not be undone. This will permanently delete
-                your every items in your list.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction className="bg-red-500 active:bg-red-700" onClick={handleClear}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
     </>
   );
 }

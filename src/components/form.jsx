@@ -8,10 +8,14 @@ import {
 } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
-import { DrawerClose } from "./ui/drawer";
 import { toast } from "sonner";
+import { useContext } from "react";
+import { context } from "@/lib/context";
 
-export default function Form({ values, setValues, setListData, editing }) {
+export default function Form({isOpen, setIsOpen}) {
+
+  const{  setValues, setListData, editing,values } = useContext(context)
+
   const handleSave = () => {
     if (values.title) {
       if (editing) {
@@ -30,7 +34,8 @@ export default function Form({ values, setValues, setListData, editing }) {
       }
     } else {
       toast.warning("Did you added your item?");
-    }
+    };
+    setIsOpen(!isOpen)
   };
 
   const onChange = (e) => {
@@ -117,15 +122,12 @@ export default function Form({ values, setValues, setListData, editing }) {
             </div>
           </div>
         </div>
-
-        <DrawerClose asChild>
           <div className="flex gap-2 justify-end py-4">
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline" onClick={()=>{setIsOpen(!isOpen)}}>Cancel</Button>
             <Button type="button" onClick={handleSave}>
               Save
             </Button>
           </div>
-        </DrawerClose>
       </div>
     </>
   );

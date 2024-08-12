@@ -2,13 +2,12 @@ import { Button } from "./ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "./ui/card";
 import { useContext, useRef, useEffect, useState } from "react";
-import { DrawerTrigger } from "./ui/drawer";
 import { context } from "../lib/context";
 import { toast } from "sonner";
 
-export default function Item({ item, index }) {
+export default function Item({ item }) {
   const { title, qty, details, id, status } = item;
-  const { setValues, setEditing, setListData } = useContext(context);
+  const { setValues, setEditing, setListData,setIsOpen } = useContext(context);
   const [expand, setExpand] = useState(false);
 
   const cardRef = useRef();
@@ -19,7 +18,7 @@ export default function Item({ item, index }) {
 
   const handleCheck = (e) => {
     e.stopPropagation();
-    cardRef.current.classList.add("animate-slide-in-bottom")
+    cardRef.current.classList.add("animate-slide-in-bottom");
     setListData((prev) =>
       prev.map((i, index) => (index + 1 === id ? { ...i, status: !status } : i))
     );
@@ -28,6 +27,7 @@ export default function Item({ item, index }) {
   };
   const handleEdit = () => {
     toast.dismiss();
+    setIsOpen(true)
     setValues(item);
     setEditing(true);
   };
@@ -39,20 +39,16 @@ export default function Item({ item, index }) {
     toast.success("You deleted an item");
   };
 
-
-
-  useEffect(()=>{
-    
+  useEffect(() => {
     setTimeout(() => {
-      cardRef.current.classList.remove("animate-slide-in-bottom")
+      cardRef.current.classList.remove("animate-slide-in-bottom");
     }, 500);
-  },[status])
-  
+  }, [status]);
 
   return (
     <>
       <Card
-      ref={cardRef}
+        ref={cardRef}
         className={"mb-2"}
         onClick={handleExpand}
         key={"i" + id}
@@ -69,14 +65,15 @@ export default function Item({ item, index }) {
           <p className="font-light text-sm">Qty:{qty}</p>
         </div>
         {expand ? (
-          <div className="flex flex-col gap-2 p-2 animate-slide-out-bottom" key={"id" + id}>
+          <div
+            className="flex flex-col gap-2 p-2 animate-slide-out-bottom"
+            key={"id" + id}
+          >
             <div className="break-words px-4">
               {details ? details : "No note"}
             </div>
             <div className="flex justify-end gap-2">
-              <DrawerTrigger asChild>
                 <Button onClick={handleEdit}>Edit</Button>
-              </DrawerTrigger>
               <Button variant="destructive" onClick={handleDelete}>
                 Delete
               </Button>
