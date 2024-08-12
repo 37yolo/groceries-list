@@ -36,7 +36,7 @@ export default function Search({
           className="px-10 text-xl"
           onChange={handleSearch}
         />
-        <TbShoppingCartSearch className="text-2xl text-gray-500 z-[+1] absolute top-2 left-2" />
+        <TbShoppingCartSearch className="text-2xl text-gray-500 absolute top-2 left-2" />
 
         <div>
           <Select

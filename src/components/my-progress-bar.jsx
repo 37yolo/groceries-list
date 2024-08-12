@@ -19,6 +19,6 @@ export default function MyProgressBar() {
 
 
     return<>
-        <Progress value={progress} className="fixed top-0 right-0 h-1 rounded-none"/>
+        <Progress value={progress} className="fixed top-0 right-0 h-1 rounded-none z-[999]"/>
     </>
 }
