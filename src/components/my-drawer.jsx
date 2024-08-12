@@ -10,7 +10,7 @@ export default function MyDrawer({ isOpen, setIsOpen }) {
         <VisuallyHidden>
           <DrawerTitle>''</DrawerTitle>
         </VisuallyHidden>
-        <DrawerContent aria-describedby={undefined}>
+        <DrawerContent aria-describedby={undefined} >
           <div className="mx-auto w-full max-w-xl">
             <Form isOpen={isOpen} setIsOpen={setIsOpen}/>
           </div>

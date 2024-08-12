@@ -47,7 +47,7 @@ function App() {
         }}
       >
         <div className="flex justify-between items-center mb-4">
-          <MyProgressBar/>
+          {(!isOpen)&&<MyProgressBar/>}
           <div className="text-3xl font-bold"> Groceries List</div>
           <Button
             className="p-3"
