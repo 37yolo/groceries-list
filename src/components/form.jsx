@@ -76,7 +76,7 @@ export default function Form({ values, setValues, setListData, editing }) {
                   : setValues({ ...values, ["status"]: false });
               }}
             >
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-[180px]">
                 <SelectValue
                   placeholder={!values.status ? "Ongoing" : "Done"}
                 />
@@ -103,7 +103,7 @@ export default function Form({ values, setValues, setListData, editing }) {
                 name="qty"
                 type="number"
                 value={values.qty}
-                className="z-[+1] text-center"
+                className="z-[1] text-center"
                 onChange={onChange}
               />
               <Button
