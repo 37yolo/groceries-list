@@ -19,18 +19,18 @@ export default function List({
     [listData]
   );
 
-  const filteredItems =
-    filterValue === "done"
-      ? filterItemsDone
-      : filterValue === "ongoing"
-      ? filterItemsLeft
-      : filterItemsLeft.concat(filterItemsDone);
-  const searchedItems = useMemo(
+  const filteredItems = useMemo(
     () =>
-      filteredItems.filter((item) =>
-        item.title.toLowerCase().includes(searchValue)
-      ),
-    [filteredItems]
+      filterValue === "done"
+        ? filterItemsDone
+        : filterValue === "ongoing"
+        ? filterItemsLeft
+        : filterItemsLeft.concat(filterItemsDone),
+    [listData]
+  );
+
+  const searchedItems = filteredItems.filter((item) =>
+    item.title.toLowerCase().includes(searchValue)
   );
 
   const [listDataHistory, setListDataHistory] = useState([]);
@@ -63,44 +63,48 @@ export default function List({
 
   return (
     <>
-      <MyAlertDialog isOpen={isOpen} setIsOpen={setIsOpen} handleClear={handleClear}/>
-        <div className="flex justify-between">
-          <div className="flex flex-col items-start">
-            <p className="text-xl font-bold">List</p>
-            <p className="font-light text-sm">
-              {!searchValue.length
-                ? filterValue === "ongoing"
-                  ? `${filterItemsLeft.length} left`
-                  : filterValue === "done"
-                  ? `${filterItemsDone.length} done`
-                  : `${filterItemsLeft.length} left, ${filterItemsDone.length} done`
-                : searchValue.length > 1
-                ? `${searchedItems.length} found`
-                : `${searchedItems.length} founds`}
-            </p>
-          </div>
-          <Button
-            variant="destructive"
-            onClick={() => {
-              setListDataHistory([...listData]);
-              toast.dismiss();
-              setIsOpen(!isOpen);
-            }}
-          >
-            Clear
-          </Button>
+      <MyAlertDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        handleClear={handleClear}
+      />
+      <div className="flex justify-between">
+        <div className="flex flex-col items-start">
+          <p className="text-xl font-bold">List</p>
+          <p className="font-light text-sm">
+            {!searchValue.length
+              ? filterValue === "ongoing"
+                ? `${filterItemsLeft.length} left`
+                : filterValue === "done"
+                ? `${filterItemsDone.length} done`
+                : `${filterItemsLeft.length} left, ${filterItemsDone.length} done`
+              : searchValue.length > 1
+              ? `${searchedItems.length} found`
+              : `${searchedItems.length} founds`}
+          </p>
         </div>
-        <ul className="animate-slide-in-bottom">
-          {listData.length ? (
-            (searchValue.length ? searchedItems : filteredItems).map(
-              (item) => <Item key={item.id} item={item} />
-            )
-          ) : (
-            <div className="flex justify-center items-center h-[50vh]">
-              <li key="e">No item</li>
-            </div>
-          )}
-        </ul>
+        <Button
+          variant="destructive"
+          onClick={() => {
+            setListDataHistory([...listData]);
+            toast.dismiss();
+            setIsOpen(!isOpen);
+          }}
+        >
+          Clear
+        </Button>
+      </div>
+      <ul className="animate-slide-in-bottom">
+        {listData.length ? (
+          (searchValue.length ? searchedItems : filteredItems).map((item) => (
+            <Item key={item.id} item={item} />
+          ))
+        ) : (
+          <div className="flex justify-center items-center h-[50vh]">
+            <li key="e">No item</li>
+          </div>
+        )}
+      </ul>
     </>
   );
 }
