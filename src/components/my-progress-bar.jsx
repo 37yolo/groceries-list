@@ -12,7 +12,7 @@ export default function MyProgressBar() {
         const  scrollY = window.scrollY
         const scrolled = (scrollY/(docHeigth-winHeigth))*100
         
-        return Math.round(scrolled);
+        return Math.floor(scrolled);
         
     },[scrollPercentage])
 
