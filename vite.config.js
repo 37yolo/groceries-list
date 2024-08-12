@@ -8,6 +8,6 @@ export default defineConfig({
     alias: {
       "@": path.resolve("./src"),
     },
-    base: "/groceries-list/"
   },
+  base: "/groceries-list/",
 })
