@@ -9,10 +9,10 @@ export default function MyProgressBar() {
 
     useEffect(()=>{
         const winHeigth = document.documentElement.clientHeight;
-        const docHeigth = document.documentElement.scrollHeight
-        const  scrollY = window.scrollY
-        const scrolled = (scrollY/(docHeigth-winHeigth))*100
-        
+        const docHeigth = document.documentElement.scrollHeight;
+        const  scrollTop = document.body.scrollTop || document.documentElement.scrollTop
+        const scrolled = (scrollTop/(docHeigth-winHeigth))*100
+ 
         scrollRef.current = Math.round(scrolled)
 
     },[windowScroll])
