@@ -13,7 +13,7 @@ export default function MyProgressBar() {
         const  scrollTop = document.body.scrollTop || document.documentElement.scrollTop
         const scrolled = (scrollTop/(docHeigth-winHeigth))*100
  
-        scrollRef.current = Math.round(scrolled)
+        scrolled>90?scrollRef.current =100:scrolled<10?scrollRef.current =0:scrollRef.current = Math.round(scrolled)
 
     },[windowScroll])
 
