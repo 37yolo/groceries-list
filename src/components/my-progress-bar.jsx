@@ -1,24 +1,25 @@
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Progress } from "./ui/progress";
 export default function MyProgressBar() {
 
-    const[scrollPercentage,setScrollPercentage]=useState(0)
-    window.addEventListener('scroll', ()=>{setScrollPercentage(window.scrollY)})
+    const [windowScroll, setWindowScroll] = useState(null)
+    window.addEventListener('scroll', ()=>{setWindowScroll(window.scrollY)})
+    const scrollRef = useRef(null)
 
 
-    const progress = useMemo(()=>{
+    useEffect(()=>{
         const winHeigth = window.innerHeight;
         const docHeigth = document.documentElement.scrollHeight
         const  scrollY = window.scrollY
         const scrolled = (scrollY/(docHeigth-winHeigth))*100
         
-        return Math.floor(scrolled);
-        
-    },[scrollPercentage])
+        scrollRef.current = Math.round(scrolled)
+
+    },[windowScroll])
 
 
 
     return<>
-        <Progress value={progress} className="fixed top-0 right-0 h-1 rounded-none z-[999]"/>
+        <Progress value={scrollRef.current} className="fixed top-0 right-0 h-1 rounded-none z-[999]"/>
     </>
 }
