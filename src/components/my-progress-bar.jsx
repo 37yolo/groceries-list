@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Progress } from "./ui/progress";
 export default function MyProgressBar() {
 
