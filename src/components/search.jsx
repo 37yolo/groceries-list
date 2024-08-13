@@ -20,7 +20,7 @@ export default function Search({
         clearTimeout(timeout);
       };
     },
-    [input]
+    [input, setSearchValue]
   );
 
   const handleSearch = (e) => {

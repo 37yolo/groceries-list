@@ -26,7 +26,7 @@ export default function List({
         : filterValue === "ongoing"
         ? filterItemsLeft
         : filterItemsLeft.concat(filterItemsDone),
-    [listData]
+    [filterItemsDone, filterItemsLeft, filterValue]
   );
 
   const searchedItems = filteredItems.filter((item) =>
